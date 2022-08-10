@@ -1,4 +1,4 @@
-# CM-points-Shimura-Curves
+# CM-Points-Shimura-Curves
 This repository contains code for the paper "CM points on Shimura curves via QM-equivariant isogeny volcanoes" by Frederick Saia. A description of the contents is as follows:
 
 ## Main Files
