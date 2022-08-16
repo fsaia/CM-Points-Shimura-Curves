@@ -16,7 +16,7 @@
 
 
 // CM_points_XD0_prime_power
-// Input: factorization of quaternion discriminant D>1 (even product of primes), CM conductor f, fundamental discriminant d_K, 
+// Input: factorization of quaternion discriminant D (even product of primes), CM conductor f, fundamental discriminant d_K, 
 // prime l, exponent a at least 1
 // Ouput: A pair of sequences of sequences [conductor, ram, degree, number],
 // with the first sequence in the pair giving the sequence of index 2 subfields of
@@ -28,6 +28,8 @@
     // the number of points with this residue field and ramification index. 
 // The second sequence gives the same ordered information for ring class fields
 // which arise as residue fields of such points.  
+
+// Note: the elliptic-modular D=1 case of X^1_0(N) = X_0(N) is allowed!
 
 CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
 
@@ -261,15 +263,35 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 // Type VIII
 
                 if L ge 1 then 
-                    
-                    // Type VIII_1
-                    if a eq L+1 then 
-                        Append(~points[1],[f,1,ClassNumber((f)^2*d_K),2^b]);
-                    end if; 
+                    if (d_K eq -4) then // This forces D=1, and only in this case do we have paths
+                                        // of this type which descend at least once and are fixed
+                        // Type VIII_1
+                        if a eq L+1 then 
+                            Append(~points[1],[f,1,ClassNumber((f)^2*d_K),2^b]);
+                        end if; 
 
-                    // Type VIII_2
-                    if a ge L+2 then 
-                        Append(~points[2],[2^(Max(a-2*L-1,0))*f,1,2*ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*2^(Min(L,a-1-L)-1)]);
+                        // Type VIII_2
+                        if (a eq L+2) or ((L eq 1) and (a ge 3)) then 
+                            Append(~points[1],[2^(Max(a-2*L-1,0))*f,1,ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*2]);
+                        end if;
+
+                        // Type VIII_3
+                        if (a ge L+3) and (L ge 2) then 
+                            Append(~points[1],[2^(Max(a-2*L-1,0))*f,1,ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*4]);
+                            Append(~points[2],[2^(Max(a-2*L-1,0))*f,1,2*ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*(2^(Min(L,a-1-L)-1)-2)]);
+                        end if;
+
+                    else 
+                        // Type VIII_1
+                        if a eq L+1 then 
+                            Append(~points[1],[f,1,ClassNumber((f)^2*d_K),2^b]);
+                        end if; 
+
+                        // Type VIII_2
+                        if a ge L+2 then 
+                            Append(~points[2],[2^(Max(a-2*L-1,0))*f,1,2*ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*2^(Min(L,a-1-L)-1)]);
+                        end if;
+
                     end if;
 
                 end if;
@@ -577,7 +599,7 @@ end function;
 
 
 // CM_points_XD0
-// Input: quaternion discriminant D > 1 (even product of primes), CM conductor f, 
+// Input: quaternion discriminant D (even product of primes), CM conductor f, 
 // fundamental discriminant d_K, positive integer N
 // Ouput: A pair of sequences of sequences [conductor, ram, degree, number],
 // with the first sequence giving the sequence of index 2 subfields of 
@@ -588,6 +610,8 @@ end function;
     // the number of points with this residue field and ramification index. 
 // The second sequence gives the same ordered information for ring class fields
 // which arise as residue fields of such points.  
+
+// Note: the elliptic-modular D=1 case of X^1_0(N) = X_0(N) is allowed!
 
 CM_points_XD0 := function(D, f, d_K, N)
 
@@ -726,7 +750,7 @@ end function;
 
 
 // Prim_CM_res_flds_XD0_prime_power
-// Input: factorization of quaternion discriminant D>1 (even product of primes), CM conductor f, fundamental discriminant d_K, 
+// Input: factorization of quaternion discriminant D (even product of primes), CM conductor f, fundamental discriminant d_K, 
 // prime l, exponent a at least 1
 // Ouput: A pair of sequences [conductor, degree], with the first sequence in the
 // pair giving information on the index 2 subfield of a ring class field 
@@ -1051,7 +1075,7 @@ end function;
 
 
 // Prim_CM_res_flds_XD0
-// Input: quaternion discriminant D>1 (even product of primes), CM conductor f, 
+// Input: quaternion discriminant D (even product of primes), CM conductor f, 
 // fundamental discriminant d_K, positive integer N
 // Ouput: A pair of sequences [conductor, degree], with the first sequence in the
 // pair giving information on the index 2 subfield of a ring class field 
@@ -1061,6 +1085,8 @@ end function;
     // the degree over Q of the residue field
 // The second sequence gives the same ordered information for the ring class field
 // arising as a primitive residue field of such points (if one exists).
+
+// Note: the elliptic-modular D=1 case of X^1_0(N) = X_0(N) is allowed!
 
 Prim_CM_res_flds_XD0 := function(D, f, d_K, N)
 
@@ -1232,10 +1258,12 @@ end function;
 
 
 // d_OCM_XD0
-// Input: quaternion discriminant D>1 (even product of primes), CM conductor f, 
+// Input: quaternion discriminant D (even product of primes), CM conductor f, 
 // fundamental discriminant d_K, positive integer N
 // Ouput: The least degree over mathbb{Q} of an f^2*d_K-CM
 // point on X^D_0(N). 
+
+// Note: the elliptic-modular D=1 case of X^1_0(N) = X_0(N) is allowed!
 
 d_OCM_XD0 := function(D, f, d_K, N)
     
@@ -1271,7 +1299,7 @@ load 'cond_disc_list_allO.m';
 
 
 // d_CM_XD0
-// Input: quaternion discriminant D>1 (even product of primes), positive integer N
+// Input: quaternion discriminant D (even product of primes), positive integer N
 // Output: If the least degree of a CM point on X^D_0(N) is at most 100,
 // returns a sequences [f, d_K, h(O), d_{O,CM}(X^D_0(N))] of information 
 // corresponding to an imaginary quadratic order O such that d_CM_XD0 = d_OCM_XD0, where:
@@ -1280,6 +1308,8 @@ load 'cond_disc_list_allO.m';
     // h(O) is the class number of the order
     // d_{O,CM}(X^D_0(N)) = d_{CM}(X^D_0(N)) is the least degree of an O-CM point on X^D_0(N)
 // If the least degree is more than 100, returns "Cannot be computed, larger than 100"
+
+// Note: the D=1 case of X^1_0(N) = X_0(N) is allowed!
 
 d_CM_XD0 := function(D,N)
     
@@ -1316,7 +1346,7 @@ d_CM_XD0 := function(D,N)
         end if; 
     end for; 
 
-    // If the current least degree found is at most 2 then 
+    // If the current least degree found is at most 2 if D>1 and 1 otherwise, 
     // we know it is the least degree
     if (Cond_Fundisc_h_deg ne []) and ((Cond_Fundisc_h_deg[4] eq 1) or ((Cond_Fundisc_h_deg[4] eq 2) and (D gt 1))) then 
         // print "[f, d_K, h(O), d_CM(X^D_0(N))]: ";
@@ -1499,22 +1529,59 @@ list_d_CM_XD0 := function(low,high)
 end function;
 
 
-// SetOutputFile("dcm_list_XD0_10k.m");
+// SetOutputFile("dcm_list_XD0_100k.m");
 // print list_d_CM_XD0(1,10^4);
 // UnsetOutputFile(); 
 
 
 
-// loading bads_list.m : list of pairs (D,N) with D>1 and N relatively prime to D
-// for which X_0^D(N) is not found guaranteed to have a 
+// psi_from_fact: Given natural N, factorization of N (list of pairs (p,a)), computes psi(N)
+// for use in next check
+
+psi_from_fact := function(N,F)
+    M := 1;
+        for i in [1..#F] do
+            M := M * (F[i][1]+1)*F[i][1]^(F[i][2]-1);
+        end for;
+    return M;
+end function;
+
+
+// no_least_Heegner_disc : list of pairs [D,N] for which there is no imaginary quadratic 
+// discriminant of class number at most 100 satisfying the (D,N)-Heegner Hypothesis.
+// We check these pairs via exact least degree computations.
+no_least_Heegner_disc := [[101959, 210], [111397, 210], [141427, 210], [154583, 210], [164749, 210],
+[165053, 330], [174629, 330], [190619, 210], [192907, 210], [194051, 210],
+[199801, 330], [208351, 210], [218569, 210], [233519, 210], [240097, 210],
+[272459, 210], [287419, 210], [296153, 210], [304513, 210], [307241, 210]];
+
+// for pair in no_least_Heegner_disc do
+//     dcm := d_CM_XD0(pair[1],pair[2]);
+//     if Type(dcm) eq MonStgElt then 
+//         if (dcm eq "Cannot be computed, larger than 100") then 
+//             print "Cannot be computed, larger than 100 for D, N: ", pair[1], ", ", pair[2];
+//         elif (dcm eq "No order of class number up to 100 splits D") then 
+//             print "No order of class number up to 100 splits D for D, N: ", pair[1], ", ", pair[2];
+//         end if;
+//     else 
+//         if (dcm[4] ge 7*EulerPhi(pair[1])*psi_from_fact(pair[2],Factorization(pair[2]))/1600) then 
+//             print pair;
+//         end if; 
+//     end if;
+// end for;
+
+// we find that all pairs in no_least_Heegner_disc satisfy the above check
+
+
+// loading bads_list.m : list of pairs (D,N) for which X_0^D(N) is not found guaranteed to have a 
 // sporadic CM point just based on the Frey-Faltings type check with the discriminant 
 // of smallest absolute value satisfying the (D,N) Heeger hypothesis. This is created
 // from code found in sporadic_checks.m. 
 load "bads_list.m";
 
 
-// fail_dcm_check : list of pairs [D,dcm(X_0^D(1))] with D>1 and N relatively prime to D
-// such that dcm(X_0^D(1)) >= 7phi(D)/1600
+// fail_dcm_check : list of pairs [D,dcm(X_0^D(1))] such that dcm(X_0^D(1)) >= 7phi(D)/1600
+// this corresponds to the set \mathcal{F} in the paper
 fail_dcm_check := [];
 
 for pair in bads_list do
