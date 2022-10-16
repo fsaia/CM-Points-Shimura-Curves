@@ -1,9 +1,10 @@
 // The aim of this code is to compute the Delta-CM locus on X^D_0(N)
 // for any imaginary quadratic discriminant Delta and positive integer N coprime to
-// a given quaternion discriminant D.
+// a given quaternion discriminant D. We also provide functions e.g. for computing all primitive
+// (degrees of) residue fields of Delta-CM points on X^D_0(N). 
 
 // This is done via an isogeny-volcano approach, based on
-// work of Saia 2022. 
+// work of Clark--Saia 2022 in the D=1 case and work of Saia 2022 in the D>1 case 
 
 
 //////////////////////////////////////////////////////////////
@@ -263,35 +264,15 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 // Type VIII
 
                 if L ge 1 then 
-                    if (d_K eq -4) then // This forces D=1, and only in this case do we have paths
-                                        // of this type which descend at least once and are fixed
-                        // Type VIII_1
-                        if a eq L+1 then 
-                            Append(~points[1],[f,1,ClassNumber((f)^2*d_K),2^b]);
-                        end if; 
 
-                        // Type VIII_2
-                        if (a eq L+2) or ((L eq 1) and (a ge 3)) then 
-                            Append(~points[1],[2^(Max(a-2*L-1,0))*f,1,ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*2]);
-                        end if;
+                    // Type VIII_1
+                    if a eq L+1 then 
+                        Append(~points[1],[f,1,ClassNumber((f)^2*d_K),2^b]);
+                    end if; 
 
-                        // Type VIII_3
-                        if (a ge L+3) and (L ge 2) then 
-                            Append(~points[1],[2^(Max(a-2*L-1,0))*f,1,ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*4]);
-                            Append(~points[2],[2^(Max(a-2*L-1,0))*f,1,2*ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*(2^(Min(L,a-1-L)-1)-2)]);
-                        end if;
-
-                    else 
-                        // Type VIII_1
-                        if a eq L+1 then 
-                            Append(~points[1],[f,1,ClassNumber((f)^2*d_K),2^b]);
-                        end if; 
-
-                        // Type VIII_2
-                        if a ge L+2 then 
-                            Append(~points[2],[2^(Max(a-2*L-1,0))*f,1,2*ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*2^(Min(L,a-1-L)-1)]);
-                        end if;
-
+                    // Type VIII_2
+                    if a ge L+2 then 
+                        Append(~points[2],[2^(Max(a-2*L-1,0))*f,1,2*ClassNumber((2^(Max(a-2*L-1,0))*f)^2*d_K),2^b*2^(Min(L,a-1-L)-1)]);
                     end if;
 
                 end if;
