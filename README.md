@@ -1,11 +1,11 @@
 # CM-Points-Shimura-Curves
-This repository contains code for the paper "CM points on Shimura curves via QM-equivariant isogeny volcanoes" by Frederick Saia. (Computations for the case of quaternionic multiplication by the split rational quaternion algebra, i.e. the D=1 elliptic modular case, are included, and are based on the paper "CM elliptic curves: isogenies, volcanoes and reality" by Pete L. Clark and Frederick Saia.) A description of the contents is as follows:
+This repository contains code for the paper "CM points on Shimura curves via QM-equivariant isogeny volcanoes" by Frederick Saia. (Computations for the case of quaternionic multiplication by the split rational quaternion algebra, i.e. the D=1 elliptic modular case, are included, and are based on the papers "CM elliptic curves: isogenies, volcanoes and reality: Part I" by Pete L. Clark and "CM elliptic curves: isogenies, volcanoes and reality: Part II" by Pete L. Clark and Frederick Saia.) A description of the contents is as follows:
 
 ## Main Files
 
 - `sporadic_checks.m`: Knowing that there are finitely many pairs (D,N) with D>1 a quaternion discriminant and N a positive integer coprime to D for which the Shimura curve X_0^D(N) may fail to have a sporadic CM point, this code is for checking such pairs further in an effort to guarantee a sporadic point. Specifically, we use the theorem of Faltings-Frey combined with lower bounds on the gonality of these curves and upper bounds on the least degree of a CM point on them to do this. Further "sporadic checks" using exact computations of the least degree of a CM point are found in `shimura_curve_CM_locus.m`. 
 
-- `shimura_curve_CM_locus.m`: The aim of this code is to compute the Delta-CM locus on X_0^D(N) for any imaginary quadratic discriminant Delta and positive integer N coprime to a given quaternion discriminant D>1. This is done via the QM-equivariant isogeny volcano approach of the referenced paper. In particular, this file contains code to enumerate all CM points of a specified discriminant Delta with all possible residue fields up to isomorphism for one of these Shimura curves. Further, we provide code to provide all primitive residue fields and primitive degrees of Delta-CM points on X_0^D(N), as well as code to compute the least degree of a Delta-CM point and, when possible, the least degree of a CM point in general. With the latter computations, we further narrow down our list of pairs (D,N) such that it is unknown to us whether the curve X_0^D(N) has a sporadic CM point. 
+- `shimura_curve_CM_locus.m`: The aim of this code is to compute the Delta-CM locus on X_0^D(N) for any imaginary quadratic discriminant Delta and positive integer N coprime to a given quaternion discriminant D. This is done via the QM-equivariant isogeny volcano approach of the referenced paper of Saia in the D>1 case, and of the papers of Clark and Clark--Saia in the D=1 case. In particular, this file contains code to enumerate all CM points of a specified discriminant Delta with all possible residue fields up to isomorphism for one of these Shimura curves. Further, we provide code to provide all primitive residue fields and primitive degrees of Delta-CM points on X_0^D(N), as well as code to compute the least degree of a Delta-CM point and, when possible, the least degree of a CM point in general. With the latter computations, we further narrow down our finite list of pairs (D,N) such that it is unknown to us whether the curve X_0^D(N) has a sporadic CM point. 
 
 ## Required Lists
 
@@ -22,11 +22,11 @@ This repository contains code for the paper "CM points on Shimura curves via QM-
     
 - `no_sporadics.m`: list of pairs [D,N] for which we know that X_0^D(N) has no sporadic points, by virtue of having infinitely many degree 2 points.
 
-- `bads_list.m`: list of pairs (D,N) for which X_0^D(N) is not found guaranteed to have a sporadic CM point just based on the Frey-Faltings type check with the discriminant of smallest absolute value satisfying the (D,N) Heeger hypothesis.
+- `bads_list.m`: list of all 4691 pairs (D,N) for which X_0^D(N) is not found guaranteed to have a sporadic CM point based on the Frey-Faltings type check with the discriminant of smallest absolute value satisfying the (D,N) Heeger hypothesis.
 
-- `fail_dcm_check.m`: list of pairs [D,dcm(X_0^D(1))] such that D>1 is a quaternion discriminant and dcm(X_0^D(1)) >= 7phi(D)/1600.
+- `fail_dcm_check.m`: list of all 682 triples [D,N,dcm(X_0^D(N))] for which dcm(X_0^D(N)) >= (21/400) ( phi(D)psi(N)/12 - e_1(D,N)/4 - e_3(D,N)/3 )
 
-- `unknown_sporadics.m`: list of triples [D,N,dcm(X_0^D(N))] consisting of all quaternion discriminants D such that D is not in delta_eq_2_D and such that we are unsure whether X_0^D(N) has a sporadic CM point based on our least degree check, i.e. such that dcm(X_0^D(N)) >= 7 phi(D)/1600.
+- `unknown_sporadics.m`: list of all 391 triples [D,N,dcm(X_0^D(N))] consisting of pairs [D,N] for which we are unsure whether X_0^D(N) has a sporadic CM point. In other words, this consists of those (D,N) in the fail_dcm_check list which are not ithe no_sporadics list, and such that either X_0^D(N) does not have a degree 2 CM point or X_0^D(1) has infinitely many degree 2 points. 
 
 
 
