@@ -30,7 +30,7 @@
 // The second sequence gives the same ordered information for ring class fields
 // which arise as residue fields of such points.  
 
-// Note: the elliptic-modular D=1 case of X^1_0(N) = X_0(N) is allowed!
+// Note: the elliptic-modular D=1 case of X^1_0(N) = Y_0(N) is allowed!
 
 CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
 
@@ -82,7 +82,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
     // Case all primes dividing D ramify in K
     if D_check eq true then 
         
-        // 5.1: General Case 
+        // 6.1: General Case 
 
         // Type I
         if (d_K eq -4) and (L eq 0) then
@@ -147,7 +147,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
             Append(~points[2],[f,1,2*ClassNumber((f)^2*d_K),2^b]); 
         end if;
 
-        // 5.2: l > 2
+        // 6.2: l > 2
         if l gt 2 then 
 
             // Type V
@@ -191,7 +191,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
 
         elif l eq 2 then 
 
-            // 5.3: l=2, unramified 
+            // 6.3: l=2, unramified 
             if symbol_l_K ne 0 then 
 
                 // Type V_1
@@ -227,7 +227,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                     end for;
                 end if;
 
-            // 5.4: l=2, ord_2(d_K) = 2
+            // 6.4: l=2, ord_2(d_K) = 2
             elif Valuation(d_K,2) eq 2 then
 
                 // Type V_1
@@ -278,7 +278,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 end if;
 
 
-            // 5.5: l=2, ord_2(d_K) = 3
+            // 6.5: l=2, ord_2(d_K) = 3
             elif Valuation(d_K,2) eq 3 then
 
                 // Type V_1
@@ -332,7 +332,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
     // Case some prime dividing D is inert in K
     elif D_check eq false then 
 
-        // 5.1: General Case 
+        // 6.1: General Case 
 
         // Type I
         if (d_K eq -4) and (L eq 0) then
@@ -397,7 +397,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
             Append(~points[2],[f,1,2*ClassNumber((f)^2*d_K),2^(b+1)]); 
         end if;
 
-        // 5.2: l > 2
+        // 6.2: l > 2
         if l gt 2 then 
 
             // Type V
@@ -438,7 +438,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
 
         elif l eq 2 then 
 
-            // 5.3: l=2, unramified 
+            // 6.3: l=2, unramified 
             if symbol_l_K ne 0 then 
 
                 // Type V_1
@@ -473,7 +473,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                     end for;
                 end if;
 
-            // 5.4: l=2, ord_2(d_K) = 2
+            // 6.4: l=2, ord_2(d_K) = 2
             elif Valuation(d_K,2) eq 2 then
 
                 // Type V_1
@@ -521,7 +521,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
 
                 end if;
 
-            // 5.5: l=2, ord_2(d_K) = 3
+            // 6.5: l=2, ord_2(d_K) = 3
             elif Valuation(d_K,2) eq 3 then
 
                 // Type V_1
@@ -654,8 +654,8 @@ CM_points_XD0 := function(D, f, d_K, N)
             prime_power_pts := CM_points_XD0_prime_power(D_Fact,f,d_K,N_Fact[i][1],N_Fact[i][2]);
 
             // condensing information to single sequence of pts, each a list with four entries:
-                // field type: "R" for rational ring class field or "NR" for index 2 subfield thereof
-                // conductor: CM conductor of the field
+                // field type: "NR" for ring class field or "R" for index 2 subfield thereof
+                // conductor: CM conductor of the corresponding 
                 // ram: ramification index w.r.t map X^D_0(l^a)-->X^D(1)
                 // number: number of pts with this res fld and ramification index 
             prime_power_pts_factor := []; 
@@ -706,7 +706,7 @@ CM_points_XD0 := function(D, f, d_K, N)
 
             // Case: at least one residue field is a ring class field
             else 
-                Append(~points[2],[cond_lcm,ram,2*ClassNumber(cond_lcm^2*d_K),s*N]);
+                Append(~points[2],[cond_lcm,ram,2*ClassNumber(cond_lcm^2*d_K),2^{s-1}*N]);
             end if; 
 
         end for;
@@ -788,7 +788,7 @@ Prim_CM_res_flds_XD0_prime_power := function(D_Fact, f, d_K, l, a)
         end if;
     end for; 
 
-    // Casework as in Section 5.8
+    // Casework as in Section 6.6
 
     // Case all primes dividing D ramified in K
     if D_check eq true then 
@@ -896,29 +896,14 @@ Prim_CM_res_flds_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 // Case 1.10
                 if val eq 2 then 
 
-                    if d_K ne -4 then 
+                    // Case 1.10a
+                    if a le 2*L then 
+                        points[1] := [f,ClassNumber((f)^2*d_K)];
 
-                        // Case 1.10a
-                        if a le 2*L then 
-                            points[1] := [f,ClassNumber((f)^2*d_K)];
-
-                        // Case 1.10b
-                        else
-                            points[1] := [2^(a-2*L)*f,ClassNumber((2^(a-2*L)*f)^2*d_K)];
-                            points[2] := [2^(a-2*L-1)*f,2*ClassNumber((2^(a-2*L-1)*f)^2*d_K)];
-                        end if; 
-
+                    // Case 1.10b
                     else
-
-                        // Case 1.10c
-                        if a le 2*L+1 then 
-                            points[1] := [f,ClassNumber((f)^2*d_K)];
-
-                        // Case 1.10d
-                        else 
-                            points[1] := [2^(a-2*L-1)*f,ClassNumber((2^(a-2*L-1)*f)^2*d_K)];
-                        end if;
-
+                        points[1] := [2^(a-2*L)*f,ClassNumber((2^(a-2*L)*f)^2*d_K)];
+                        points[2] := [2^(a-2*L-1)*f,2*ClassNumber((2^(a-2*L-1)*f)^2*d_K)];
                     end if; 
 
                 // Case 1.11
@@ -938,7 +923,7 @@ Prim_CM_res_flds_XD0_prime_power := function(D_Fact, f, d_K, l, a)
         end if; 
 
 
-    // Case some prime dividing D inert in K
+    // Case some prime dividing D is inert in K
     elif D_check eq false then 
 
         // Case 1.1 
@@ -1067,7 +1052,7 @@ end function;
 // The second sequence gives the same ordered information for the ring class field
 // arising as a primitive residue field of such points (if one exists).
 
-// Note: the elliptic-modular D=1 case of X^1_0(N) = X_0(N) is allowed!
+// Note: the elliptic-modular D=1 case of X^1_0(N) = Y_0(N) is allowed!
 
 Prim_CM_res_flds_XD0 := function(D, f, d_K, N)
 
@@ -1244,7 +1229,7 @@ end function;
 // Ouput: The least degree over mathbb{Q} of an f^2*d_K-CM
 // point on X^D_0(N). 
 
-// Note: the elliptic-modular D=1 case of X^1_0(N) = X_0(N) is allowed!
+// Note: the elliptic-modular D=1 case of X^1_0(N) = Y_0(N) is allowed!
 
 d_OCM_XD0 := function(D, f, d_K, N)
     
@@ -1516,8 +1501,19 @@ end function;
 
 
 
+// phi_from_fact: Given natural N, factorization of N (list of pairs (p,a)), computes phi(N) 
+
+phi_from_fact := function(N,F)
+    P := N;
+    for i in [1..#F] do
+        P := P*(1-1/(F[i][1]));
+    end for;
+    return P;
+end function;
+
+
+
 // psi_from_fact: Given natural N, factorization of N (list of pairs (p,a)), computes psi(N)
-// for use in next check
 
 psi_from_fact := function(N,F)
     M := 1;
@@ -1528,6 +1524,39 @@ psi_from_fact := function(N,F)
 end function;
 
 
+
+// e1_from_fact: Given factorizations F_D and F_N of a rational quaternion discriminant D and
+// a natural number N which is coprime to D, respectively, returns e_1(D,N)
+
+e1_from_facts := function(F_D,F_N)
+    P := 1;
+    for i in [1..#F_D] do
+        P := P*(1-KroneckerSymbol(-4,F_D[i][1]));
+    end for;
+    for i in [1..#F_N] do
+        P := P*(1+KroneckerSymbol(-4,F_N[i][1]));
+    end for;
+    return P;
+end function;
+
+
+
+// e3_from_fact: Given factorizations F_D and F_N of a rational quaternion discriminant D and
+// a natural number N which is coprime to D, respectively, returns e_3(D,N)
+
+e3_from_facts := function(F_D,F_N)
+    P := 1;
+    for i in [1..#F_D] do
+        P := P*(1-KroneckerSymbol(-3,F_D[i][1]));
+    end for;
+    for i in [1..#F_N] do
+        P := P*(1+KroneckerSymbol(-3,F_N[i][1]));
+    end for;
+    return P;
+end function;
+
+
+
 // no_least_Heegner_disc : list of pairs [D,N] for which there is no imaginary quadratic 
 // discriminant of class number at most 100 satisfying the (D,N)-Heegner Hypothesis.
 // We check these pairs via exact least degree computations.
@@ -1536,20 +1565,20 @@ no_least_Heegner_disc := [[101959, 210], [111397, 210], [141427, 210], [154583, 
 [199801, 330], [208351, 210], [218569, 210], [233519, 210], [240097, 210],
 [272459, 210], [287419, 210], [296153, 210], [304513, 210], [307241, 210]];
 
-// for pair in no_least_Heegner_disc do
-//     dcm := d_CM_XD0(pair[1],pair[2]);
-//     if Type(dcm) eq MonStgElt then 
-//         if (dcm eq "Cannot be computed, larger than 100") then 
-//             print "Cannot be computed, larger than 100 for D, N: ", pair[1], ", ", pair[2];
-//         elif (dcm eq "No order of class number up to 100 splits D") then 
-//             print "No order of class number up to 100 splits D for D, N: ", pair[1], ", ", pair[2];
-//         end if;
-//     else 
-//         if (dcm[4] ge 7*EulerPhi(pair[1])*psi_from_fact(pair[2],Factorization(pair[2]))/1600) then 
-//             print pair;
-//         end if; 
-//     end if;
-// end for;
+    // for pair in no_least_Heegner_disc do
+    //     dcm := d_CM_XD0(pair[1],pair[2]);
+    //     if Type(dcm) eq MonStgElt then 
+    //         if (dcm eq "Cannot be computed, larger than 100") then 
+    //             print "Cannot be computed, larger than 100 for D, N: ", pair[1], ", ", pair[2];
+    //         elif (dcm eq "No order of class number up to 100 splits D") then 
+    //             print "No order of class number up to 100 splits D for D, N: ", pair[1], ", ", pair[2];
+    //         end if;
+    //     else 
+    //         if (dcm[4] ge ( (7*EulerPhi(pair[1])*psi_from_fact(pair[2],Factorization(pair[2]))/1600) - 49*Sqrt(pair[1]*pair[2])/400)) then 
+    //             print pair;
+    //         end if; 
+    //     end if;
+    // end for;
 
 // we find that all pairs in no_least_Heegner_disc satisfy the above check
 
@@ -1558,59 +1587,66 @@ no_least_Heegner_disc := [[101959, 210], [111397, 210], [141427, 210], [154583, 
 // sporadic CM point just based on the Frey-Faltings type check with the discriminant 
 // of smallest absolute value satisfying the (D,N) Heeger hypothesis. This is created
 // from code found in sporadic_checks.m. 
-load "bads_list.m";
+    // load "bads_list.m";
 
 
-// fail_dcm_check : list of pairs [D,dcm(X_0^D(1))] such that dcm(X_0^D(1)) >= 7phi(D)/1600
-// this corresponds to the set \mathcal{F} in the paper
-fail_dcm_check := [];
+// fail_dcm_check : list of all 682 triples [D,N,dcm(X_0^D(N))] for which
+// dcm(X_0^D(N)) >= (21/400) ( phi(D)psi(N)/12 - e_1(D,N)/4 - e_3(D,N)/3 )
+    // fail_dcm_check := [];
 
-for pair in bads_list do
-    dcm := d_CM_XD0(pair[1],pair[2]);
-    if Type(dcm) eq MonStgElt then 
-        if (dcm eq "Cannot be computed, larger than 100") then 
-            print "Cannot be computed, larger than 100 for D, N: ", pair[1], ", ", 1;
-        elif (dcm eq "No order of class number up to 100 splits D") then 
-            print "No order of class number up to 100 splits D for D, N: ", pair[1], ", ", 1;
-        end if;
-    else 
-        if (dcm[4] ge 7*EulerPhi(pair[1])/1600) then 
-            Append(~fail_dcm_check,[pair[1],pair[2],dcm[4]]); 
-        end if; 
-    end if;
-end for; 
+    // for pair in bads_list do
+    //     dcm := d_CM_XD0(pair[1],pair[2]);
+    //     if Type(dcm) eq MonStgElt then 
+    //         if (dcm eq "Cannot be computed, larger than 100") then 
+    //             print "Cannot be computed, larger than 100 for D, N: ", pair[1], ", ", 1;
+    //         elif (dcm eq "No order of class number up to 100 splits D") then 
+    //             print "No order of class number up to 100 splits D for D, N: ", pair[1], ", ", 1;
+    //         end if;
+    //     else 
+    //         FD := Factorization(pair[1]);
+    //         FN := Factorization(pair[2]);
+    //         if (dcm[4] ge ( (21/400)*( (phi_from_fact(pair[1],FD)*psi_from_fact(pair[2],FN)/12) - e1_from_facts(FD,FN)/4 - e3_from_facts(FD,FN)/3))) then 
+    //             Append(~fail_dcm_check,[pair[1],pair[2],dcm[4]]); 
+    //         end if; 
+    //     end if;
+    // end for; 
 
-// SetOutputFile("fail_dcm_check.m");
-// print fail_dcm_check;
-// UnsetOutputFile(); 
-
-
-
-// delta_eq_2_D : list of quaternion discriminants D such that X_0^D(1) has infinitely
-// many degree 2 points. This list comes into play as we do not know the list 
-// of all bielliptic Shimura curves X_0^D(N) for N>1, but we do know that for any such
-// curve X_0^D(1) must have infinitely many degree 2 points. 
-
-delta_eq_2_D := [6,10,14,15,21,22,26,33,34,35,38,39,46,51,55,57,58,62,65,69,74,77,82,
-86, 87,94,95,106,111,118,119,122,129,134,143,146,159,166,194,206,
-210,215,314, 330,390,510,546]; 
+    // SetOutputFile("fail_dcm_check.m");
+    // print fail_dcm_check;
+    // UnsetOutputFile(); 
 
 
-// initializing unknown_sporadics: list of triples [D,1,dcm(X_0^D(1))] consisting of
-// all quaternion discriminants D such that D is not in delta_eq_2_D and such that we 
-// are unsure whether X_0^D(N) has a sporadic CM point
-// based on our least degree check, i.e. such that dcm(X_0^D(N)) >= 7 phi(D)/1600
-unknown_sporadics := [];
 
-for triple in fail_dcm_check do
-    if not (triple[1] in delta_eq_2_D) then 
-        Append(~unknown_sporadics,triple);
-    end if;
-end for;
+// no_sporadics: list of pairs [D,N] for which we know that X_0^D(N) has no sporadic points,
+// by virtue of having infinitely many degree 2 points
 
-// SetOutputFile("unknown_sporadics.m");
-// print unknown_sporadics;
-// UnsetOutputFile(); 
+    // load "no_sporadics.m";
+    // load "fail_dcm_check.m";
+
+// delta_eq2_D : list of D such that X_0^D(1) has infinitely many degree 2 points
+
+delta_eq2_D := [6,10,14,15,21,22,26,33,34,35,38,39,46,51,55,57,58,62,65,69,74,77,82,
+    86, 87,94,95,106,111,118,119,122,129,134,143,146,159,166,194,206, 
+    210,215,314, 330,390,510,546];  
+
+// initializing unknown_sporadics: list of all 618 triples [D,N,dcm(X_0^D(N))] consisting of
+// pairs [D,N] not in no_sporadics such that we are unsure whether X_0^D(N) has a sporadic 
+// CM point based on our least degree check and checks based on complete knowledge of infinitude of
+// degree 2 points on X_0^D(1) 
+
+    // unknown_sporadics := [];
+
+    // for triple in fail_dcm_check do
+    //     if not ([triple[1],triple[2]] in no_sporadics) then 
+    //         if (triple[3] gt 2) or (triple[1] in delta_eq2_D) then 
+    //             Append(~unknown_sporadics,triple);
+    //         end if;
+    //     end if;
+    // end for;
+
+    // SetOutputFile("unknown_sporadics.m");
+    // print unknown_sporadics;
+    // UnsetOutputFile(); 
     
 
 

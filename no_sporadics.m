@@ -1,4 +1,4 @@
-// no_sporadics: list of pairs [D,N] for which we know that X_0^D(N) has no sporadic points,
+// no_sporadics: list of all 64 pairs [D,N] for which we know that X_0^D(N) has no sporadic points,
 // by virtue of having infinitely many degree 2 points
 
 no_sporadics := [[ 6, 1] , [ 6, 5 ] , [ 6, 7 ] , [ 6, 11 ] , [ 6, 13 ] , [ 6, 19 ] , [6,29] , 

@@ -11,7 +11,7 @@
 // upper bound on the least degree of a CM point on X_0^D(N) with CM by a specified discriminant 
 // satisfying the (D,N) Heegner hypothesis. 
 
-C := 55871700000;
+C := 56048300000;
 
 
 
@@ -47,7 +47,7 @@ load "classnum_disc_list.m";
 
 
 
-// least_Heegner_check: Given pair (D,N) as above, find greatest fundamental discriminant d < -4 
+// least_Heegner_check: Given pair (D,N) as above, find greatest fundamental discriminant d
 // satisfying the (D,N) Heegner hypothesis. Then, test if inequality which guarantees sporadic 
 // CM points on X_0^D(N) (coming from Frey--Faltings) is satisfied. (Note: yells if discriminant is 
 // not found in list of imaginary quad discriminants used, classnum_disc_list here)
@@ -90,7 +90,7 @@ least_Heegner_check := function(D,N)
 
     if found_disc eq false then
         return "disc list too short";
-    elif (2*h0 le (7/1600)*phi_from_fact(D,FD)*psi_from_fact(N,FN)) then
+    elif 2*h0 le ((7/1600)*phi_from_fact(D,FD)*psi_from_fact(N,FN) - 49*Sqrt(D*N)/400) then
         return "good";
     else
         return "bad";
@@ -179,11 +179,25 @@ check_for_bads := function(low,high)
     return "no bads found";
 end function;
 
-
 // check_for_bads(6,10^5);
 
-// largest bad product found in this search is D=2490, N=1, and N=1 is the only value 
+// largest bad product found in this search is D=15078, N=1, and N=1 is the only value 
 // of N for this discriminant D such that the pair (D,N) is bad
+
+
+
+// Compare_DN_pairs
+// Input: two pairs x, y
+// Output: integer which is x[1]-y[1] if this quantity is non-zero, and is x[2]-y[2] otherwise,
+// as comparision function for sorting dcm_list in next function
+compare_DN_pairs := function(x,y)
+    c := x[1] - y[1];
+    if c ne 0 then
+        return c;
+    else
+        return x[2]-y[2];
+    end if;
+end function;
 
 
 
@@ -247,7 +261,7 @@ list_bads := function(low,high)
                 if D le high then 
 
                     // loop through N values
-                    for N in [Ceiling(low/D),Floor(high/D)] do
+                    for N in [Ceiling(low/D)..Floor(high/D)] do
                         if GCD(D,N) eq 1 then
                             check := least_Heegner_check(D,N);
                             if check eq "bad" then
@@ -268,15 +282,16 @@ list_bads := function(low,high)
     end_time := Cputime();
     print "Done. Time taken", end_time - start_time;
     print "Bad pairs [D,N] with D*N from ", low, " to ", high, ":";
-    Sort(~bads_list,func<x,y | x[1]-y[1]>);
+    Sort(~bads_list,compare_DN_pairs);
     return bads_list; 
 end function;
 
 
-// Using the above function, we find that there are exactly 238 pairs for which this 
-// inequality does not hold. As stated, the largest quaternion discriminant of such a pair is
-// D = 2490. Each such pair has N=1 and dcm_XD0(D,N) = 2. 
+// Using the above function, along with some individual checks when we do not find a "least Heegner
+// fundamental discriminant" of class number at most 100, we find that there are exactly 
+// 4691 pairs for which this inequality does not hold. The largest quaternion discriminant of such 
+// a pair is D = 15078.
 
-// SetOutputFile("bads_list.m");
-// list_bads(1,2490);
-// UnsetOutputFile();
+    // SetOutputFile("bads_list.m");
+    // list_bads(1,15078);
+    // UnsetOutputFile();
