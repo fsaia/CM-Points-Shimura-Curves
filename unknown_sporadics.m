@@ -1,7 +1,7 @@
-// List of all 391 triples [D,N,dcm(X_0^D(N))] consisting of
-// pairs [D,N] for which we are unsure whether X_0^D(N) has a sporadic 
-// CM point. In other words, this consists of those (D,N) in the fail_dcm_check
-// list such that X_0^D(N) is not known to have infinitely many degree 2 points
+// List of all 391 triples [D,N,dcm(X_0^D(N))] consisting of pairs [D,N] for which we are 
+// unsure whether X_0^D(N) has a sporadic CM point. In other words, this consists of those 
+// (D,N) in the fail_dcm_check list which are not ithe no_sporadics list, and such that either 
+// X_0^D(N) does not have a degree 2 CM point or X_0^D(1) has infinitely many degree 2 points. 
 
 unknown_sporadics := [
     [ 6, 17, 2 ],
