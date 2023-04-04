@@ -1,5 +1,5 @@
 # CM-Points-Shimura-Curves
-This repository contains code for the paper "CM points on Shimura curves via QM-equivariant isogeny volcanoes" by Frederick Saia. (Computations for the case of quaternionic multiplication by the split rational quaternion algebra, i.e. the D=1 elliptic modular case, are included, and are based on the papers "CM elliptic curves: isogenies, volcanoes and reality: Part I" by Pete L. Clark and "CM elliptic curves: isogenies, volcanoes and reality: Part II" by Pete L. Clark and Frederick Saia.) A description of the contents is as follows:
+This repository contains code for the paper "CM points on Shimura curves via QM-equivariant isogeny volcanoes" by Frederick Saia. (Computations for the case of quaternionic multiplication by the split rational quaternion algebra, i.e. the D=1 elliptic modular case, are allowed, and are based on the papers "CM elliptic curves: isogenies, volcanoes and reality: Part I" by Pete L. Clark and "CM elliptic curves: isogenies, volcanoes and reality: Part II" by Pete L. Clark and Frederick Saia.) A description of the contents is as follows:
 
 ## Main Files
 
