@@ -1266,8 +1266,8 @@ load 'cond_disc_list_allO.m';
 
 // d_CM_XD0
 // Input: quaternion discriminant D (even product of primes), positive integer N
-// Output: If the least degree of a CM point on X^D_0(N) is at most 100,
-// returns a sequences [f, d_K, h(O), d_{O,CM}(X^D_0(N))] of information 
+// Output: If the least degree of a CM point on X^D_0(N) is realized by an order of class
+// number at most 100, returns a sequences [f, d_K, h(O), d_{O,CM}(X^D_0(N))] of information 
 // corresponding to an imaginary quadratic order O such that d_CM_XD0 = d_OCM_XD0, where:
     // f is the conductor of the order
     // d_K is the fundamental discriminant of the order
@@ -1501,6 +1501,15 @@ end function;
 
 
 
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//
+// Back to Sporadic CM Points on X^D_0(N)
+//
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+
 // phi_from_fact: Given natural N, factorization of N (list of pairs (p,a)), computes phi(N) 
 
 phi_from_fact := function(N,F)
@@ -1525,11 +1534,18 @@ end function;
 
 
 
-// e1_from_fact: Given factorizations F_D and F_N of a rational quaternion discriminant D and
+// epsilon1_from_fact: Given factorizations F_D and F_N of a rational quaternion discriminant D and
 // a natural number N which is coprime to D, respectively, returns e_1(D,N)
 
-e1_from_facts := function(F_D,F_N)
+epsilon1_from_facts := function(F_D,F_N)
     P := 1;
+
+    if (#F_N gt 0) and (F_N[1][1] eq 2) then 
+        if F_N[1][2] ge 2 then 
+            return 0;
+        end if;
+    end if; 
+
     for i in [1..#F_D] do
         P := P*(1-KroneckerSymbol(-4,F_D[i][1]));
     end for;
@@ -1537,15 +1553,28 @@ e1_from_facts := function(F_D,F_N)
         P := P*(1+KroneckerSymbol(-4,F_N[i][1]));
     end for;
     return P;
+
 end function;
 
 
 
-// e3_from_fact: Given factorizations F_D and F_N of a rational quaternion discriminant D and
+// epsilon3_from_fact: Given factorizations F_D and F_N of a rational quaternion discriminant D and
 // a natural number N which is coprime to D, respectively, returns e_3(D,N)
 
-e3_from_facts := function(F_D,F_N)
+epsilon3_from_facts := function(F_D,F_N)
     P := 1;
+
+    if (#F_N gt 0) and (F_N[1][1] eq 3) then 
+        if F_N[1][2] ge 2 then 
+            return 0;
+        end if;
+
+    elif (#F_N gt 1) and (F_N[2][1] eq 3) then 
+        if F_N[2][2] ge 2 then 
+            return 0;
+        end if;
+    end if; 
+
     for i in [1..#F_D] do
         P := P*(1-KroneckerSymbol(-3,F_D[i][1]));
     end for;
@@ -1553,6 +1582,7 @@ e3_from_facts := function(F_D,F_N)
         P := P*(1+KroneckerSymbol(-3,F_N[i][1]));
     end for;
     return P;
+
 end function;
 
 
@@ -1587,7 +1617,7 @@ no_least_Heegner_disc := [[101959, 210], [111397, 210], [141427, 210], [154583, 
 // sporadic CM point just based on the Frey-Faltings type check with the discriminant 
 // of smallest absolute value satisfying the (D,N) Heeger hypothesis. This is created
 // from code found in sporadic_checks.m. 
-    // load "bads_list.m";
+load "bads_list.m";
 
 
 // fail_dcm_check : list of all 682 triples [D,N,dcm(X_0^D(N))] for which
@@ -1605,23 +1635,23 @@ no_least_Heegner_disc := [[101959, 210], [111397, 210], [141427, 210], [154583, 
     //     else 
     //         FD := Factorization(pair[1]);
     //         FN := Factorization(pair[2]);
-    //         if (dcm[4] ge ( (21/400)*( (phi_from_fact(pair[1],FD)*psi_from_fact(pair[2],FN)/12) - e1_from_facts(FD,FN)/4 - e3_from_facts(FD,FN)/3))) then 
+    //         if (dcm[4] ge ( (21/400)*( (phi_from_fact(pair[1],FD)*psi_from_fact(pair[2],FN)/12) - epsilon1_from_facts(FD,FN)/4 - epsilon3_from_facts(FD,FN)/3))) then 
     //             Append(~fail_dcm_check,[pair[1],pair[2],dcm[4]]); 
     //         end if; 
     //     end if;
     // end for; 
 
-    // SetOutputFile("fail_dcm_check.m");
+    // SetOutputFile("fail_dcm_check_new.m");
     // print fail_dcm_check;
     // UnsetOutputFile(); 
 
 
 
-// no_sporadics: list of pairs [D,N] for which we know that X_0^D(N) has no sporadic points,
+// no_sporadics_XD0: list of pairs [D,N] for which we know that X_0^D(N) has no sporadic points,
 // by virtue of having infinitely many degree 2 points
 
-    // load "no_sporadics.m";
-    // load "fail_dcm_check.m";
+load "no_sporadics_XD0.m";
+load "fail_dcm_check.m";
 
 // delta_eq2_D : list of D such that X_0^D(1) has infinitely many degree 2 points
 
@@ -1629,15 +1659,15 @@ delta_eq2_D := [6,10,14,15,21,22,26,33,34,35,38,39,46,51,55,57,58,62,65,69,74,77
     86, 87,94,95,106,111,118,119,122,129,134,143,146,159,166,194,206, 
     210,215,314, 330,390,510,546];  
 
-// initializing unknown_sporadics: list of all 618 triples [D,N,dcm(X_0^D(N))] consisting of
-// pairs [D,N] not in no_sporadics such that we are unsure whether X_0^D(N) has a sporadic 
+// initializing unknown_sporadics: list of all 391 triples [D,N,dcm(X_0^D(N))] consisting of
+// pairs [D,N] not in no_sporadics_XD0 such that we are unsure whether X_0^D(N) has a sporadic 
 // CM point based on our least degree check and checks based on complete knowledge of infinitude of
 // degree 2 points on X_0^D(1) 
 
     // unknown_sporadics := [];
 
     // for triple in fail_dcm_check do
-    //     if not ([triple[1],triple[2]] in no_sporadics) then 
+    //     if not ([triple[1],triple[2]] in no_sporadics_XD0) then 
     //         if (triple[3] gt 2) or (triple[1] in delta_eq2_D) then 
     //             Append(~unknown_sporadics,triple);
     //         end if;
@@ -1651,11 +1681,137 @@ delta_eq2_D := [6,10,14,15,21,22,26,33,34,35,38,39,46,51,55,57,58,62,65,69,74,77
 
 
 
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//
+// Least Degrees of CM Points on X^D_1(N)
+//
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+
+// is_of_Type1 : given a pair (D,N), returns true if (D,N) is Type 1 and false otherwise. 
+// (D,N) is Type 1 if D splits Q(\sqrt{-3}), 9 does not divide N, and no prime which is 2 (mod 3) 
+// divides N. This is equivalent to
+// d_{CM}(X_1(N)) being phi(N)/3, with a minimizing order O_K where K = Q(sqrt(-3))
+
+is_of_Type1 := function(D,N)
+    if N mod 9 eq 0 then
+        return false;
+    end if;
+
+    N_Fact := Factorization(N);
+    for pair in N_Fact do
+        if KroneckerSymbol(-3, pair[1]) eq -1 then
+            return false; 
+        end if;
+    end for;
+ 
+
+    D_Fact := Factorization(D);
+    for pair in D_Fact do
+        if KroneckerSymbol(-3, pair[1]) eq 1 then
+            return false; 
+        end if;
+    end for;
+
+    return true; 
+
+end function;
 
 
 
+// is_of_Type2 : given a pair (D,N), returns true if (D,N) is Type 2 and false otherwise. 
+// (D,N) is Type 2 if D splits Q(\sqrt{-1}), 4 does not divide N, and no prime which is 3 (mod 4) 
+// divides N. This is equivalent to
+// d_{CM}(X_1(N)) being phi(N)/2, with a minimizing order O_K where K = Q(sqrt(-4))
+
+is_of_Type2 := function(D,N)
+    if N mod 4 eq 0 then
+        return false;
+    end if;
+
+    N_Fact := Factorization(N);
+    for pair in N_Fact do
+        if KroneckerSymbol(-4, pair[1]) eq -1 then
+            return false; 
+        end if;
+    end for;
+ 
+
+    D_Fact := Factorization(D);
+    for pair in D_Fact do
+        if KroneckerSymbol(-4, pair[1]) eq 1 then
+            return false; 
+        end if;
+    end for;
+
+    return true; 
+    
+end function;
 
 
+
+// d_CM_XD1
+// Input: quaternion discriminant D (even product of primes), positive integer N
+// Output: If the least degree of a CM point on X^D_0(N) is realized by an order
+// of class number at most 100, returns a sequences [f, d_K, h(O), d_{O,CM}(X^D_1(N))] 
+// of information corresponding to an imaginary quadratic order O such that d_CM_XD1 = d_OCM_XD1, where:
+    // f is the conductor of the order
+    // d_K is the fundamental discriminant of the order
+    // h(O) is the class number of the order
+    // d_{O,CM}(X^D_1(N)) = d_{CM}(X^D_1(N)) is the least degree of an O-CM point on X^D_1(N)
+// If the least degree is more than 100, returns "Cannot be computed, larger than 100"
+
+// Note: the D=1 case of X^1_0(N) = X_0(N) is allowed!
+
+d_CM_XD1 := function(D,N)
+
+    dcm_XD0_info := d_CM_XD0(D,N);
+
+    if (D eq 1) and (N in [1,2,3,4,6,7,9,11,14,19,27,43,67,163]) then // dcm(X_1(N)) = 1 cases
+        return [* dcm_XD0_info[1], dcm_XD0_info[2], dcm_XD0_info[3], 1 *]; 
+
+    elif N le 3 then 
+        return [* dcm_XD0_info[1], dcm_XD0_info[2], dcm_XD0_info[3], dcm_XD0_info[4]*Max(EulerPhi(N)/2,1) *];
+
+    elif is_of_Type1(D,N) then
+        return [* 1, -3, 1, EulerPhi(N)/3 *];
+
+    elif is_of_Type2(D,N) then
+        return [* 1, -4, 1, EulerPhi(N)/2 *];
+
+    else
+        return [* dcm_XD0_info[1], dcm_XD0_info[2], dcm_XD0_info[3], dcm_XD0_info[4]*(EulerPhi(N)/2) *];
+    
+    end if;
+end function; 
+
+
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//
+// Sporadic CM Points on X^D_1(N)
+//
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+
+// no_sporadics_XD1: list of pairs [D,N] for which we know that X_1^D(N) has no sporadic CM points,
+// by virtue of having \Delta(X_0^D(N)) = 2 and phi(N) \leq d_{CM}(X_1^D(N))
+
+    // no_sporadics_XD1 := []; 
+
+    // for pair in no_sporadics_XD0 do 
+    //     if Max(2,EulerPhi(pair[2])/2) le d_CM_XD1(pair[1],pair[2])[4] then 
+    //         Append(~no_sporadics_XD1, pair); 
+    //     end if;
+    // end for; 
+
+    // SetOutputFile("no_sporadics_XD1.m");
+    // print no_sporadics_XD1;
+    // UnsetOutputFile(); 
 
 
 
