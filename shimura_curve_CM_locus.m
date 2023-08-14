@@ -467,7 +467,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 end if;
 
                 // Type XI
-                if (a ge L+2) and (symbol_l_K eq 1) then 
+                if (a ge L+2) and (L ge 1) and (symbol_l_K eq 1) then 
                     for h in [1..a-L-1] do 
                         Append(~points[2],[2^(Max(a-2*L-h,0))*f,1,2*ClassNumber((2^(Max(a-2*L-h,0))*f)^2*d_K),2^(b+1)*2^(Min(L,a-L-h)-1)]);
                     end for;
@@ -702,11 +702,11 @@ CM_points_XD0 := function(D, f, d_K, N)
 
             // Case: all residue fields index 2 subfields of ring class fields 
             if s eq 0 then 
-                Append(~points[1],[cond_lcm,ram,ClassNumber(cond_lcm^2*d_K),N]);
+                Append(~points[1],[cond_lcm,ram,ClassNumber(cond_lcm^2*d_K),count]);
 
             // Case: at least one residue field is a ring class field
             else 
-                Append(~points[2],[cond_lcm,ram,2*ClassNumber(cond_lcm^2*d_K),2^{s-1}*N]);
+                Append(~points[2],[cond_lcm,ram,2*ClassNumber(cond_lcm^2*d_K),2^(s-1)*count]);
             end if; 
 
         end for;
