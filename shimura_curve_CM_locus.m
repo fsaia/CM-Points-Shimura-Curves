@@ -85,9 +85,9 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
         // 6.1: General Case 
 
         // Type I
-        if (d_K eq -4) and (L eq 0) then
+        if (f_0^2*d_K eq -4) and (L eq 0) then
             Append(~points[1],[l^a*f,2,ClassNumber((l^(a)*f)^2*d_K),2^b]); 
-        elif (d_K eq -3) and (L eq 0) then
+        elif (f_0^2*d_K eq -3) and (L eq 0) then
             Append(~points[1],[l^a*f,3,ClassNumber((l^(a)*f)^2*d_K),2^b]); 
         else 
             Append(~points[1],[l^a*f,1,ClassNumber((l^(a)*f)^2*d_K),2^b]); 
@@ -100,7 +100,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
 
         if L eq 0 then 
 
-            if (d_K eq -4) then 
+            if (f_0^2*d_K eq -4) then 
                 // Type III
                 if symbol_l_K eq 0 then 
                     Append(~points[1],[l^(a-1)*f,2,ClassNumber((l^(a-1)*f)^2*d_K),2^b]); 
@@ -113,7 +113,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                     end for;
                 end if;
 
-            elif (d_K eq -3) then
+            elif (f_0^2*d_K eq -3) then
                 // Type III
                 if symbol_l_K eq 0 then 
                     Append(~points[1],[l^(a-1)*f,3,ClassNumber((l^(a-1)*f)^2*d_K),2^b]); 
@@ -170,11 +170,13 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
 
                 // Type VIII
                 Append(~points[1],[l^(Max(a-2*L-1,0))*f,1,ClassNumber((l^(Max(a-2*L-1,0))*f)^2*d_K),2^b]);
-                Append(~points[2],[l^(Max(a-2*L-1,0))*f,1,2*ClassNumber((l^(Max(a-2*L-1,0))*f)^2*d_K),2^b*(l^(Min(L,a-L-1))-1)/2]);
+                if (a-L-1 gt 0) then 
+                    Append(~points[2],[l^(Max(a-2*L-1,0))*f,1,2*ClassNumber((l^(Max(a-2*L-1,0))*f)^2*d_K),2^b*(l^(Min(L,a-L-1))-1)/2]);
+                end if; 
 
             end if; 
              
-            if (a ge L+1) and (L ge 1) and (symbol_l_K(d_K,l) eq 1) then
+            if (a ge L+1) and (L ge 1) and (symbol_l_K eq 1) then
 
                 // Type IX
                 Append(~points[1],[l^(Max(a-2*L,0))*f,1,ClassNumber((l^(Max(a-2*L,0))*f)^2*d_K),2^b]);
@@ -221,7 +223,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 end if;
 
                 // Type XI
-                if (a ge L+2) and (symbol_l_K eq 1) then 
+                if (a ge L+2) and (L ge 1) and (symbol_l_K eq 1) then 
                     for h in [1..a-L-1] do 
                         Append(~points[2],[2^(Max(a-2*L-h,0))*f,1,2*ClassNumber((2^(Max(a-2*L-h,0))*f)^2*d_K),2^b*2^(Min(L,a-L-h)-1)]);
                     end for;
@@ -246,7 +248,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 end for;
 
                 // Type VI_1
-                if L eq 1 then
+                if (L eq 1) and (a ge 2) then
                     Append(~points[1],[2^(a-2)*f,1,ClassNumber((2^(a-2)*f)^2*d_K),2^b]);
                 end if; 
 
@@ -297,7 +299,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 end for;
 
                 // Type VI_1
-                if L eq 1 then
+                if (L eq 1) and (a ge 2) then
                     Append(~points[1],[2^(a-2)*f,1,ClassNumber((2^(a-2)*f)^2*d_K),2^b]);
                 end if; 
 
@@ -335,9 +337,9 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
         // 6.1: General Case 
 
         // Type I
-        if (d_K eq -4) and (L eq 0) then
+        if (f_0^2*d_K eq -4) and (L eq 0) then
             Append(~points[2],[l^a*f,2,2*ClassNumber((l^(a)*f)^2*d_K),2^(b)]); 
-        elif (d_K eq -3) and (L eq 0) then
+        elif (f_0^2*d_K eq -3) and (L eq 0) then
             Append(~points[2],[l^a*f,3,2*ClassNumber((l^(a)*f)^2*d_K),2^(b)]); 
         else 
             Append(~points[2],[l^a*f,1,2*ClassNumber((l^(a)*f)^2*d_K),2^(b)]); 
@@ -350,7 +352,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
 
         if L eq 0 then 
 
-            if (d_K eq -4) then 
+            if (f_0^2*d_K eq -4) then 
                 // Type III
                 if symbol_l_K eq 0 then 
                     Append(~points[2],[l^(a-1)*f,2,2*ClassNumber((l^(a-1)*f)^2*d_K),2^(b)]); 
@@ -363,7 +365,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                     end for;
                 end if;
 
-            elif (d_K eq -3) then
+            elif (f_0^2*d_K eq -3) then
                 // Type III
                 if symbol_l_K eq 0 then 
                     Append(~points[2],[l^(a-1)*f,3,2*ClassNumber((l^(a-1)*f)^2*d_K),2^b]); 
@@ -492,7 +494,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 end for;
 
                 // Type VI_1
-                if L eq 1 then
+                if (L eq 1) and (a ge 2) then
                     Append(~points[2],[2^(a-2)*f,1,2*ClassNumber((2^(a-2)*f)^2*d_K),2^b]);
                 end if; 
 
@@ -540,7 +542,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 end for;
 
                 // Type VI_1
-                if L eq 1 then
+                if (L eq 1) and (a ge 2)  then
                     Append(~points[2],[2^(a-2)*f,1,2*ClassNumber((2^(a-2)*f)^2*d_K),2^b]);
                 end if; 
 
@@ -653,6 +655,10 @@ CM_points_XD0 := function(D, f, d_K, N)
             // output list from prime_power function
             prime_power_pts := CM_points_XD0_prime_power(D_Fact,f,d_K,N_Fact[i][1],N_Fact[i][2]);
 
+            if Type(prime_power_pts) eq MonStgElt then
+                return prime_power_pts; // returns relevant string if K doesn't split B_D or level N not coprime to D
+            end if;
+
             // condensing information to single sequence of pts, each a list with four entries:
                 // field type: "NR" for ring class field or "R" for index 2 subfield thereof
                 // conductor: CM conductor of the corresponding 
@@ -683,7 +689,7 @@ CM_points_XD0 := function(D, f, d_K, N)
         for pt_tuple in prime_level_product do 
 
             s := #[i : i in [1..r] | pt_tuple[i][1] eq "NR"];
-            conductors := [pt[2] : pt in pt_tuple]; 
+            conductors := [(Integers() ! pt[2]) : pt in pt_tuple]; 
             cond_lcm := Lcm(conductors); 
 
             ram := 1;
@@ -1617,7 +1623,7 @@ no_least_Heegner_disc := [[101959, 210], [111397, 210], [141427, 210], [154583, 
 // sporadic CM point just based on the Frey-Faltings type check with the discriminant 
 // of smallest absolute value satisfying the (D,N) Heeger hypothesis. This is created
 // from code found in sporadic_checks.m. 
-load "bads_list.m";
+// load "bads_list.m";
 
 
 // fail_dcm_check : list of all 682 triples [D,N,dcm(X_0^D(N))] for which
@@ -1641,7 +1647,7 @@ load "bads_list.m";
     //     end if;
     // end for; 
 
-    // SetOutputFile("fail_dcm_check_new.m");
+    // SetOutputFile("fail_dcm_check.m");
     // print fail_dcm_check;
     // UnsetOutputFile(); 
 
@@ -1651,7 +1657,7 @@ load "bads_list.m";
 // by virtue of having infinitely many degree 2 points
 
 load "no_sporadics_XD0.m";
-load "fail_dcm_check.m";
+// load "fail_dcm_check.m";
 
 // delta_eq2_D : list of D such that X_0^D(1) has infinitely many degree 2 points
 
@@ -1664,19 +1670,19 @@ delta_eq2_D := [6,10,14,15,21,22,26,33,34,35,38,39,46,51,55,57,58,62,65,69,74,77
 // CM point based on our least degree check and checks based on complete knowledge of infinitude of
 // degree 2 points on X_0^D(1) 
 
-    // unknown_sporadics := [];
+// unknown_sporadics := [];
 
-    // for triple in fail_dcm_check do
-    //     if not ([triple[1],triple[2]] in no_sporadics_XD0) then 
-    //         if (triple[3] gt 2) or (triple[1] in delta_eq2_D) then 
-    //             Append(~unknown_sporadics,triple);
-    //         end if;
-    //     end if;
-    // end for;
+// for triple in fail_dcm_check do
+//     if not ([triple[1],triple[2]] in no_sporadics_XD0) then 
+//         if (triple[3] gt 2) or (triple[1] in delta_eq2_D) then 
+//             Append(~unknown_sporadics,triple);
+//         end if;
+//     end if;
+// end for;
 
-    // SetOutputFile("unknown_sporadics.m");
-    // print unknown_sporadics;
-    // UnsetOutputFile(); 
+// SetOutputFile("unknown_sporadics.m");
+// print unknown_sporadics;
+// UnsetOutputFile(); 
     
 
 
@@ -1799,12 +1805,13 @@ end function;
 
 
 // no_sporadics_XD1: list of pairs [D,N] for which we know that X_1^D(N) has no sporadic CM points,
-// by virtue of having \Delta(X_0^D(N)) = 2 and phi(N) \leq d_{CM}(X_1^D(N))
+// by virtue of having \delta(X_0^D(N)) = 2 and 
+// \delta(X_1^D(N)) \leq Max(2,phi(N)) \leq d_{CM}(X_1^D(N))
 
     // no_sporadics_XD1 := []; 
 
     // for pair in no_sporadics_XD0 do 
-    //     if Max(2,EulerPhi(pair[2])/2) le d_CM_XD1(pair[1],pair[2])[4] then 
+    //     if Max(2,EulerPhi(pair[2])) le d_CM_XD1(pair[1],pair[2])[4] then 
     //         Append(~no_sporadics_XD1, pair); 
     //     end if;
     // end for; 
