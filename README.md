@@ -7,6 +7,10 @@ This repository contains code for the paper "CM points on Shimura curves via QM-
 
 - `shimura_curve_CM_locus.m`: The aim of this code is to compute the Delta-CM locus on X_0^D(N) for any imaginary quadratic discriminant Delta and positive integer N coprime to a given quaternion discriminant D. This is done via the QM-equivariant isogeny volcano approach of the referenced paper of Saia in the D>1 case, and of the papers of Clark and Clark--Saia in the D=1 case. In particular, this file contains code to enumerate all CM points of a specified discriminant Delta with all possible residue fields up to isomorphism for one of these Shimura curves. Further, we provide code to provide all primitive residue fields and primitive degrees of Delta-CM points on X_0^D(N), as well as code to compute the least degree of a Delta-CM point and, when possible, the least degree of a CM point on X_0^D(N) and X_1^D(N) in general. With the latter computations, we further narrow down our finite lists of pairs (D,N) such that it is unknown to us whether the curves X_0^D(N) and X_1^D(N) have a sporadic CM point. 
 
+## Example File
+
+- `CM_points_example.m`: Here we provide examples for using and parsing our main function for computing CM points on Shimura curves, the function `CM_points_XD0` in `shimnura_curve_CM_locus.m`. We recommend simply running the file and reading the Magma output.   
+
 ## Required Lists
 
 - `classnum_disc_list.m`: sequence of (abs values of) discriminants d < -4 of imaginary quadratic fields of class number up to 100. The ith element is the complete sequence of (abs values of) discriminants of such fields with class number i. Modified from list of M. Watkins. This list is used in `sporadic_checks.m`. 
