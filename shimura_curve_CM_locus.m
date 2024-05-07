@@ -19,7 +19,7 @@
 // CM_points_XD0_prime_power
 // Input: factorization of quaternion discriminant D (even product of primes), CM conductor f, fundamental discriminant d_K, 
 // prime l, exponent a at least 1
-// Ouput: A pair of sequences of sequences [conductor, ram, degree, number],
+// Ouput: A pair of sequences of sequences [conductor, ram degree, degree, number],
 // with the first sequence in the pair giving the sequence of index 2 subfields of
 // ring class fields (as described in work of Jordan and Gonzalez--Rotger) which 
 // arise as residue fields of f^2d_K-CM points on X^D_0(l^a) via 
@@ -33,6 +33,8 @@
 // Note: the elliptic-modular D=1 case of X^1_0(N) = Y_0(N) is allowed!
 
 CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
+
+    assert a ge 0; 
 
     L := Valuation(f,l); // "level" of d in G_{K,l,f_0}
     f_0 := IntegerRing()!(f/l^L); // coprime to l part of conductor f
@@ -103,27 +105,41 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
             if (f_0^2*d_K eq -4) then 
                 // Type III
                 if symbol_l_K eq 0 then 
-                    Append(~points[1],[l^(a-1)*f,2,ClassNumber((l^(a-1)*f)^2*d_K),2^b]); 
+                    if a eq 1 then // case of fully horizontal path
+                        Append(~points[1],[l^(a-1)*f,1,ClassNumber((l^(a-1)*f)^2*d_K),2^b]); 
+                    else 
+                        Append(~points[1],[l^(a-1)*f,2,ClassNumber((l^(a-1)*f)^2*d_K),2^b]);
+                    end if; 
                 end if;
 
                 // Type IV
                 if symbol_l_K eq 1 then 
-                    for h in [1..a] do 
+                    for h in [1..a-1] do 
                         Append(~points[2],[l^(a-h)*f,2,2*ClassNumber((l^(a-h)*f)^2*d_K),2^b]);
                     end for;
+
+                    // case of fully horizontal path
+                    Append(~points[2],[f,1,2*ClassNumber((f)^2*d_K),2^b]);
                 end if;
 
             elif (f_0^2*d_K eq -3) then
                 // Type III
                 if symbol_l_K eq 0 then 
-                    Append(~points[1],[l^(a-1)*f,3,ClassNumber((l^(a-1)*f)^2*d_K),2^b]); 
+                    if a eq 1 then // case of fully horizontal path 
+                        Append(~points[1],[l^(a-1)*f,1,ClassNumber((l^(a-1)*f)^2*d_K),2^b]); 
+                    else 
+                        Append(~points[1],[l^(a-1)*f,3,ClassNumber((l^(a-1)*f)^2*d_K),2^b]); 
+                    end if;
                 end if;
 
                 // Type IV
                 if symbol_l_K eq 1 then 
-                    for h in [1..a] do 
+                    for h in [1..a-1] do 
                         Append(~points[2],[l^(a-h)*f,3,2*ClassNumber((l^(a-h)*f)^2*d_K),2^b]);
                     end for;
+
+                    // case of fully horizontal path 
+                    Append(~points[2],[f,1,2*ClassNumber((f)^2*d_K),2^b]);
                 end if;
 
             else 
@@ -197,7 +213,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
             if symbol_l_K ne 0 then 
 
                 // Type V_1
-                if L ge 2 then 
+                if (L ge 2) and (a ge 2) then 
                     Append(~points[1],[2^(a-2)*f,1,ClassNumber((2^(a-2)*f)^2*d_K),2^b]);
                 end if;
 
@@ -355,27 +371,42 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
             if (f_0^2*d_K eq -4) then 
                 // Type III
                 if symbol_l_K eq 0 then 
-                    Append(~points[2],[l^(a-1)*f,2,2*ClassNumber((l^(a-1)*f)^2*d_K),2^(b)]); 
+                    if a eq 1 then // case of fully horizontal path 
+                        Append(~points[2],[l^(a-1)*f,1,2*ClassNumber((l^(a-1)*f)^2*d_K),2^(b)]);
+                    else
+                        Append(~points[2],[l^(a-1)*f,2,2*ClassNumber((l^(a-1)*f)^2*d_K),2^(b)]);
+                    end if;  
                 end if;
 
                 // Type IV
                 if symbol_l_K eq 1 then 
-                    for h in [1..a] do 
+                    for h in [1..a-1] do 
                         Append(~points[2],[l^(a-h)*f,2,2*ClassNumber((l^(a-h)*f)^2*d_K),2^(b+1)]);
                     end for;
+
+                    // case of a fully horizontal path 
+                    Append(~points[2],[f,1,2*ClassNumber((f)^2*d_K),2^(b+1)]);
+
                 end if;
 
             elif (f_0^2*d_K eq -3) then
                 // Type III
                 if symbol_l_K eq 0 then 
-                    Append(~points[2],[l^(a-1)*f,3,2*ClassNumber((l^(a-1)*f)^2*d_K),2^b]); 
+                    if a eq 1 then // case of a fully horizontal path 
+                        Append(~points[2],[l^(a-1)*f,1,2*ClassNumber((l^(a-1)*f)^2*d_K),2^b]);
+                    else 
+                        Append(~points[2],[l^(a-1)*f,3,2*ClassNumber((l^(a-1)*f)^2*d_K),2^b]);
+                    end if;  
                 end if;
 
                 // Type IV
                 if symbol_l_K eq 1 then 
-                    for h in [1..a] do 
+                    for h in [1..a-1] do 
                         Append(~points[2],[l^(a-h)*f,3,2*ClassNumber((l^(a-h)*f)^2*d_K),2^(b+1)]);
                     end for;
+
+                    // case of a fully horizontal path 
+                    Append(~points[2],[f,1,2*ClassNumber((f)^2*d_K),2^(b+1)]);
                 end if;
 
             else 
@@ -424,7 +455,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
 
             end if; 
              
-            if (a ge L+1) and (L ge 1) and (symbol_l_K(d_K,l) eq 1) then
+            if (a ge L+1) and (L ge 1) and (symbol_l_K eq 1) then
 
                 // Type IX
                 Append(~points[2],[l^(Max(a-2*L,0))*f,1,2*ClassNumber((l^(Max(a-2*L,0))*f)^2*d_K),2^b*((l-2)*l^(Min(L,a-L)-1))]);
@@ -444,7 +475,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
             if symbol_l_K ne 0 then 
 
                 // Type V_1
-                if L ge 2 then 
+                if (L ge 2) and (a ge 2) then 
                     Append(~points[2],[2^(a-2)*f,1,2*ClassNumber((2^(a-2)*f)^2*d_K),2^b]);
                 end if;
 
@@ -542,7 +573,7 @@ CM_points_XD0_prime_power := function(D_Fact, f, d_K, l, a)
                 end for;
 
                 // Type VI_1
-                if (L eq 1) and (a ge 2)  then
+                if (L eq 1) and (a ge 2) then
                     Append(~points[2],[2^(a-2)*f,1,2*ClassNumber((2^(a-2)*f)^2*d_K),2^b]);
                 end if; 
 
@@ -584,7 +615,7 @@ end function;
 // CM_points_XD0
 // Input: quaternion discriminant D (even product of primes), CM conductor f, 
 // fundamental discriminant d_K, positive integer N
-// Ouput: A pair of sequences of sequences [conductor, ram, degree, number],
+// Ouput: A pair of sequences of sequences [conductor, ram degree, degree, number],
 // with the first sequence giving the sequence of index 2 subfields of 
 // ring class fields which arise as residue fields of f^2d_K-CM points on X^D_0(N) via 
     // the CM conductor, 
@@ -638,11 +669,11 @@ CM_points_XD0 := function(D, f, d_K, N)
 
         // Case all primes dividing D ramified in K
         if D_check eq true then 
-            return [*[f,1,ClassNumber(f^2*d_K),2^b], [] *];
+            return [*[[f,1,ClassNumber(f^2*d_K),2^b]], [] *];
 
         // Case some prime dividing D inert in K
         elif D_check eq false then 
-            return [*[], [f,1,2*ClassNumber(f^2*d_K),2^b] *];
+            return [*[], [[f,1,2*ClassNumber(f^2*d_K),2^b]] *];
         end if; 
 
     // N > 1 case
