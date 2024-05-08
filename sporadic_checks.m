@@ -11,7 +11,7 @@
 // upper bound on the least degree of a CM point on X_0^D(N) with CM by a specified discriminant 
 // satisfying the (D,N) Heegner hypothesis. 
 
-C := 56048300000;
+C := 42751200000;
 
 
 
@@ -90,7 +90,7 @@ least_Heegner_check := function(D,N)
 
     if found_disc eq false then
         return "disc list too short";
-    elif 2*h0 le ((7/1600)*phi_from_fact(D,FD)*psi_from_fact(N,FN) - 49*Sqrt(D*N)/400) then
+    elif 2*h0 le ((325/65536)*phi_from_fact(D,FD)*psi_from_fact(N,FN) - 2275*Sqrt(D*N)/16384) then
         return "good";
     else
         return "bad";
@@ -144,7 +144,7 @@ check_for_bads := function(low,high)
                         break;
                     end if; 
 
-                elif least_Heegner_check(D,N) eq "disc list too short" then
+                elif check eq "disc list too short" then
                     // checking that D is a quaternion discriminant
                     D_Fact := Factorization(D);
                     if #D_Fact mod 2 eq 1 then 
@@ -179,9 +179,9 @@ check_for_bads := function(low,high)
     return "no bads found";
 end function;
 
-// check_for_bads(6,10^5);
+// check_for_bads(6,10^6);
 
-// largest bad product found in this search is D=15078, N=1, and N=1 is the only value 
+// largest bad product found in this search is D=14982, N=1, and N=1 is the only value 
 // of N for this discriminant D such that the pair (D,N) is bad
 
 
@@ -289,9 +289,9 @@ end function;
 
 // Using the above function, along with some individual checks when we do not find a "least Heegner
 // fundamental discriminant" of class number at most 100, we find that there are exactly 
-// 4691 pairs for which this inequality does not hold. The largest quaternion discriminant of such 
-// a pair is D = 15078.
+// 4392 pairs for which this inequality does not hold. The largest quaternion discriminant of such 
+// a pair is D = 14982.
 
-    // SetOutputFile("bads_list.m");
-    // list_bads(1,15078);
-    // UnsetOutputFile();
+// SetOutputFile("bads_list.m");
+// list_bads(6,14982);
+// UnsetOutputFile();

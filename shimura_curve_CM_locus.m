@@ -1641,7 +1641,7 @@ no_least_Heegner_disc := [[101959, 210], [111397, 210], [141427, 210], [154583, 
     //             print "No order of class number up to 100 splits D for D, N: ", pair[1], ", ", pair[2];
     //         end if;
     //     else 
-    //         if (dcm[4] ge ( (7*EulerPhi(pair[1])*psi_from_fact(pair[2],Factorization(pair[2]))/1600) - 49*Sqrt(pair[1]*pair[2])/400)) then 
+    //         if (dcm[4] ge ( (325*EulerPhi(pair[1])*psi_from_fact(pair[2],Factorization(pair[2]))/32768) - 2275*Sqrt(pair[1]*pair[2])/8192)) then 
     //             print pair;
     //         end if; 
     //     end if;
@@ -1654,33 +1654,35 @@ no_least_Heegner_disc := [[101959, 210], [111397, 210], [141427, 210], [154583, 
 // sporadic CM point just based on the Frey-Faltings type check with the discriminant 
 // of smallest absolute value satisfying the (D,N) Heeger hypothesis. This is created
 // from code found in sporadic_checks.m. 
-// load "bads_list.m";
+
+load "bads_list.m";
 
 
-// fail_dcm_check : list of all 682 triples [D,N,dcm(X_0^D(N))] for which
-// dcm(X_0^D(N)) >= (21/400) ( phi(D)psi(N)/12 - e_1(D,N)/4 - e_3(D,N)/3 )
-    // fail_dcm_check := [];
+// computing fail_dcm_check : list of all 574 triples [D,N,dcm(X_0^D(N))] for which
+// dcm(X_0^D(N)) >= (975/16384) ( phi(D)psi(N)/12 - e_1(D,N)/4 - e_3(D,N)/3 )
 
-    // for pair in bads_list do
-    //     dcm := d_CM_XD0(pair[1],pair[2]);
-    //     if Type(dcm) eq MonStgElt then 
-    //         if (dcm eq "Cannot be computed, larger than 100") then 
-    //             print "Cannot be computed, larger than 100 for D, N: ", pair[1], ", ", 1;
-    //         elif (dcm eq "No order of class number up to 100 splits D") then 
-    //             print "No order of class number up to 100 splits D for D, N: ", pair[1], ", ", 1;
-    //         end if;
-    //     else 
-    //         FD := Factorization(pair[1]);
-    //         FN := Factorization(pair[2]);
-    //         if (dcm[4] ge ( (21/400)*( (phi_from_fact(pair[1],FD)*psi_from_fact(pair[2],FN)/12) - epsilon1_from_facts(FD,FN)/4 - epsilon3_from_facts(FD,FN)/3))) then 
-    //             Append(~fail_dcm_check,[pair[1],pair[2],dcm[4]]); 
-    //         end if; 
-    //     end if;
-    // end for; 
+// fail_dcm_check := [];
 
-    // SetOutputFile("fail_dcm_check.m");
-    // print fail_dcm_check;
-    // UnsetOutputFile(); 
+// for pair in bads_list do
+//     dcm := d_CM_XD0(pair[1],pair[2]);
+//     if Type(dcm) eq MonStgElt then 
+//         if (dcm eq "Cannot be computed, larger than 100") then 
+//             print "Cannot be computed, larger than 100 for D, N: ", pair[1], ", ", 1;
+//         elif (dcm eq "No order of class number up to 100 splits D") then 
+//             print "No order of class number up to 100 splits D for D, N: ", pair[1], ", ", 1;
+//         end if;
+//     else 
+//         FD := Factorization(pair[1]);
+//         FN := Factorization(pair[2]);
+//         if (dcm[4] ge ( (975/16384)*( (phi_from_fact(pair[1],FD)*psi_from_fact(pair[2],FN)/12) - epsilon1_from_facts(FD,FN)/4 - epsilon3_from_facts(FD,FN)/3))) then 
+//             Append(~fail_dcm_check,[pair[1],pair[2],dcm[4]]); 
+//         end if; 
+//     end if;
+// end for; 
+
+// SetOutputFile("fail_dcm_check.m");
+// print fail_dcm_check;
+// UnsetOutputFile(); 
 
 
 
@@ -1688,7 +1690,7 @@ no_least_Heegner_disc := [[101959, 210], [111397, 210], [141427, 210], [154583, 
 // by virtue of having infinitely many degree 2 points
 
 load "no_sporadics_XD0.m";
-// load "fail_dcm_check.m";
+load "fail_dcm_check.m";
 
 // delta_eq2_D : list of D such that X_0^D(1) has infinitely many degree 2 points
 
@@ -1696,7 +1698,7 @@ delta_eq2_D := [6,10,14,15,21,22,26,33,34,35,38,39,46,51,55,57,58,62,65,69,74,77
     86, 87,94,95,106,111,118,119,122,129,134,143,146,159,166,194,206, 
     210,215,314, 330,390,510,546];  
 
-// initializing unknown_sporadics: list of all 391 triples [D,N,dcm(X_0^D(N))] consisting of
+// computing unknown_sporadics: list of all 391 triples [D,N,dcm(X_0^D(N))] consisting of
 // pairs [D,N] not in no_sporadics_XD0 such that we are unsure whether X_0^D(N) has a sporadic 
 // CM point based on our least degree check and checks based on complete knowledge of infinitude of
 // degree 2 points on X_0^D(1) 
@@ -1714,7 +1716,6 @@ delta_eq2_D := [6,10,14,15,21,22,26,33,34,35,38,39,46,51,55,57,58,62,65,69,74,77
 // SetOutputFile("unknown_sporadics.m");
 // print unknown_sporadics;
 // UnsetOutputFile(); 
-    
 
 
 
@@ -1839,17 +1840,17 @@ end function;
 // by virtue of having \delta(X_0^D(N)) = 2 and 
 // \delta(X_1^D(N)) \leq Max(2,phi(N)) \leq d_{CM}(X_1^D(N))
 
-    // no_sporadics_XD1 := []; 
+no_sporadics_XD1 := []; 
 
-    // for pair in no_sporadics_XD0 do 
-    //     if Max(2,EulerPhi(pair[2])) le d_CM_XD1(pair[1],pair[2])[4] then 
-    //         Append(~no_sporadics_XD1, pair); 
-    //     end if;
-    // end for; 
+for pair in no_sporadics_XD0 do 
+    if Max(2,EulerPhi(pair[2])) le d_CM_XD1(pair[1],pair[2])[4] then 
+        Append(~no_sporadics_XD1, pair); 
+    end if;
+end for; 
 
-    // SetOutputFile("no_sporadics_XD1.m");
-    // print no_sporadics_XD1;
-    // UnsetOutputFile(); 
+SetOutputFile("no_sporadics_XD1.m");
+print no_sporadics_XD1;
+UnsetOutputFile(); 
 
 
 
