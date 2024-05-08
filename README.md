@@ -29,13 +29,13 @@ This repository contains code for the paper "CM points on Shimura curves via QM-
     - d_K is the fundamental discriminant of the order, and
     - d_{O,CM}(X^D_1(N)) = d_{CM}(X^D_1(N)) is the least degree of a CM point on X^D_1(N). The list is sorted lexicographically first by D and then by N
     
-- `no_sporadics_XD0.m`: list of pairs [D,N] for which we know that X_0^D(N) has no sporadic points, by virtue of having infinitely many degree 2 points.
+- `no_sporadics_XD0.m`: list of 64 pairs [D,N] for which we know that X_0^D(N) has no sporadic points, by virtue of having infinitely many degree 2 points.
 
-- `bads_list.m`: list of all 4691 pairs (D,N) for which X_0^D(N) is not found guaranteed to have a sporadic CM point based on the Frey-Faltings type check with the discriminant of smallest absolute value satisfying the (D,N) Heeger hypothesis.
+- `bads_list.m`: list of all 4392 pairs (D,N) for which X_0^D(N) is not found guaranteed to have a sporadic CM point based on the Frey-Faltings type check with the discriminant of smallest absolute value satisfying the (D,N) Heeger hypothesis.
 
-- `fail_dcm_check.m`: list of all 682 triples [D,N,dcm(X_0^D(N))] for which dcm(X_0^D(N)) >= (21/400) ( phi(D)psi(N)/12 - e_1(D,N)/4 - e_3(D,N)/3 )
+- `fail_dcm_check.m`: list of all 574 triples [D,N,dcm(X_0^D(N))] for which dcm(X_0^D(N)) >= (975/16384) ( phi(D)psi(N)/12 - e_1(D,N)/4 - e_3(D,N)/3 )
 
-- `unknown_sporadics.m`: list of all 391 triples [D,N,dcm(X_0^D(N))] consisting of pairs [D,N] for which we are unsure whether X_0^D(N) has a sporadic CM point. In other words, this consists of those (D,N) in the fail_dcm_check list which are not ithe no_sporadics list, and such that either X_0^D(N) does not have a degree 2 CM point or X_0^D(1) has infinitely many degree 2 points. 
+- `unknown_sporadics.m`: list of all 329 triples [D,N,dcm(X_0^D(N))] consisting of pairs [D,N] for which we are unsure whether X_0^D(N) has a sporadic CM point. In other words, this consists of those (D,N) in the fail_dcm_check list which are not ithe no_sporadics list, and such that either X_0^D(N) does not have a degree 2 CM point or X_0^D(1) has infinitely many degree 2 points. 
 
 
 
