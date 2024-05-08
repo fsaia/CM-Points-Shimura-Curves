@@ -1689,8 +1689,8 @@ load "bads_list.m";
 // no_sporadics_XD0: list of pairs [D,N] for which we know that X_0^D(N) has no sporadic points,
 // by virtue of having infinitely many degree 2 points
 
-load "no_sporadics_XD0.m";
-load "fail_dcm_check.m";
+// load "no_sporadics_XD0.m";
+// load "fail_dcm_check.m";
 
 // delta_eq2_D : list of D such that X_0^D(1) has infinitely many degree 2 points
 
@@ -1840,17 +1840,17 @@ end function;
 // by virtue of having \delta(X_0^D(N)) = 2 and 
 // \delta(X_1^D(N)) \leq Max(2,phi(N)) \leq d_{CM}(X_1^D(N))
 
-no_sporadics_XD1 := []; 
+// no_sporadics_XD1 := []; 
 
-for pair in no_sporadics_XD0 do 
-    if Max(2,EulerPhi(pair[2])) le d_CM_XD1(pair[1],pair[2])[4] then 
-        Append(~no_sporadics_XD1, pair); 
-    end if;
-end for; 
+// for pair in no_sporadics_XD0 do 
+//     if Max(2,EulerPhi(pair[2])) le d_CM_XD1(pair[1],pair[2])[4] then 
+//         Append(~no_sporadics_XD1, pair); 
+//     end if;
+// end for; 
 
-SetOutputFile("no_sporadics_XD1.m");
-print no_sporadics_XD1;
-UnsetOutputFile(); 
+// SetOutputFile("no_sporadics_XD1.m");
+// print no_sporadics_XD1;
+// UnsetOutputFile(); 
 
 
 
