@@ -1,5 +1,5 @@
 // list of all 574 triples [D,N,dcm(X_0^D(N))] for which
-// dcm(X_0^D(N)) >= (21/400) ( phi(D)psi(N)/12 - e_1(D,N)/4 - e_3(D,N)/3 )
+// dcm(X_0^D(N)) >= (975/16384) ( phi(D)psi(N)/12 - e_1(D,N)/4 - e_3(D,N)/3 )
 
 fail_dcm_check := [
     [ 6, 1, 2 ],
